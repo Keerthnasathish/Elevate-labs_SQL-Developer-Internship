@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="collage_portal.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1507"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="Course" custom_title="0" dock_id="3" table="4,6:mainCourse"/><dock_state state="000000ff00000000fd0000000100000002000005bb000003c0fc0100000003fb000000160064006f0063006b00420072006f00770073006500310100000000000001f90000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000000001f90000000000000000fb000000160064006f0063006b00420072006f00770073006500330100000000000005bb0000016200ffffff000001f90000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Course" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="60"/><column index="2" value="159"/><column index="3" value="48"/><column index="4" value="63"/><column index="5" value="49"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">
+CREATE TABLE Department (
+    DeptID INTEGER PRIMARY KEY,
+    DeptName TEXT NOT NULL
+);
+
+CREATE TABLE Student (
+    StudentID INTEGER PRIMARY KEY,
+    Name TEXT NOT NULL,
+    Email TEXT UNIQUE,
+    DeptID INTEGER,
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+);
+
+CREATE TABLE Faculty (
+    FacultyID INTEGER PRIMARY KEY,
+    Name TEXT NOT NULL,
+    Email TEXT UNIQUE,
+    DeptID INTEGER,
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+);
+
+CREATE TABLE Course (
+    CourseID INTEGER PRIMARY KEY,
+    CourseName TEXT NOT NULL,
+    Credits INTEGER,
+    FacultyID INTEGER,
+    DeptID INTEGER,
+    FOREIGN KEY (FacultyID) REFERENCES Faculty(FacultyID),
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+);
+
+CREATE TABLE Enrollment (
+    StudentID INTEGER,
+    CourseID INTEGER,
+    EnrollmentDate DATE,
+    PRIMARY KEY (StudentID, CourseID),
+    FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
+    FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
+);
+
+INSERT INTO Department VALUES (1, 'Computer Science');
+INSERT INTO Department VALUES (2, 'Electronics');
+INSERT INTO Department VALUES (3, 'Mechanical');
+
+INSERT INTO Student VALUES (101, 'Keerthna SSM', 'keerthna@example.com', 1);
+INSERT INTO Student VALUES (102, 'Arjun R', 'arjun@example.com', 2);
+INSERT INTO Student VALUES (103, 'Meena S', 'meena@example.com', 1);
+
+INSERT INTO Faculty VALUES (201, 'Dr. Ravi Kumar', 'ravi@college.edu', 1);
+INSERT INTO Faculty VALUES (202, 'Dr. Priya S', 'priya@college.edu', 2);
+
+INSERT INTO Course VALUES (301, 'Database Systems', 4, 201, 1);
+INSERT INTO Course VALUES (302, 'Digital Electronics', 3, 202, 2);
+INSERT INTO Course VALUES (303, 'Operating Systems', 4, 201, 1);
+
+INSERT INTO Enrollment VALUES (101, 301, '2025-06-20');
+INSERT INTO Enrollment VALUES (101, 303, '2025-06-21');
+INSERT INTO Enrollment VALUES (102, 302, '2025-06-22');
+INSERT INTO Enrollment VALUES (103, 301, '2025-06-22');
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
